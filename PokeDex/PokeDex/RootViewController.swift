@@ -8,6 +8,8 @@
 
 import UIKit
 
+import MBProgressHUD
+
 class RootViewController: UIViewController {
 
     @IBOutlet weak var passwordTextField: UITextField!
@@ -27,8 +29,11 @@ class RootViewController: UIViewController {
     
     @IBAction func logInButtonClick(sender: UIButton) {
         
-        print(usernameTextField.text)
-        print(passwordTextField.text)
+        //print(usernameTextField.text)
+        //print(passwordTextField.text)
+        
+        MBProgressHUD.showHUDAddedTo(view, animated: true)
+        performSelector(#selector(RootViewController.login), withObject: nil, afterDelay: 3)
     }
 
     @IBAction func signUpButtonClick(sender: AnyObject) {
@@ -37,6 +42,13 @@ class RootViewController: UIViewController {
         navigationController?.pushViewController(viewController, animated: true)
         
     }
+    
+    func login() {
+        MBProgressHUD.hideHUDForView(view, animated: true)
+        let viewController = storyboard?.instantiateViewControllerWithIdentifier("home") as! HomeViewController
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     /*
     // MARK: - Navigation
 
