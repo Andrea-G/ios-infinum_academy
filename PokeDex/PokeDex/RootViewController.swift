@@ -31,6 +31,12 @@ class RootViewController: UIViewController {
         print(passwordTextField.text)
     }
 
+    @IBAction func signUpButtonClick(sender: AnyObject) {
+        
+        let viewController = storyboard?.instantiateViewControllerWithIdentifier("signup") as! ViewController
+        navigationController?.pushViewController(viewController, animated: true)
+        
+    }
     /*
     // MARK: - Navigation
 
