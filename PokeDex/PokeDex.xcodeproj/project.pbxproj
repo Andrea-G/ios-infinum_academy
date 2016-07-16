@@ -409,6 +409,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.infinum.PokeDex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -420,6 +421,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.infinum.PokeDex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -488,6 +490,7 @@
 				42AB1C941D30F6AB000382AD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		42AB1C951D30F6AB000382AD /* Build configuration list for PBXNativeTarget "PokeDexTests" */ = {
 			isa = XCConfigurationList;
@@ -496,6 +499,7 @@
 				42AB1C971D30F6AB000382AD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		42AB1C981D30F6AB000382AD /* Build configuration list for PBXNativeTarget "PokeDexUITests" */ = {
 			isa = XCConfigurationList;
@@ -504,6 +508,7 @@
 				42AB1C9A1D30F6AB000382AD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
