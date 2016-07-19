@@ -1,23 +1,25 @@
 //
-//  RootViewController.swift
+//  RegistrationViewController.swift
 //  PokeDex
 //
-//  Created by Infinum on 09/07/16.
+//  Created by Infinum on 19/07/16.
 //  Copyright © 2016 Infinum. All rights reserved.
 //
 
 import UIKit
 
-import MBProgressHUD
 import Alamofire
 import Unbox
+import MBProgressHUD
 
-class RootViewController: UIViewController {
+class RegistrationViewController: UIViewController {
 
-    @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var usernameTextField: UITextField!
-    @IBOutlet weak var logInButton: UIButton!
     
+    @IBOutlet weak var confirmPasswordTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var nicknameTextField: UITextField!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,25 +31,24 @@ class RootViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func logInButtonClick(sender: UIButton) {
+    @IBAction func signUpButtonClick(sender: AnyObject) {
         
-        //print(usernameTextField.text)
-        //print(passwordTextField.text)
         
-        let username = usernameTextField.text
+        let username = nicknameTextField.text
         let password = passwordTextField.text
+        let email = emailTextField.text
+        let password_confirmation = confirmPasswordTextField.text
         
-        let parameters = ["password": password!, "email": username!]
-        let data = ["type": "session", "attributes": parameters]
+        let parameters = ["username": username!, "password": password!, "email": email!, "password_confirmation": password_confirmation!]
+        let data = ["type": "users", "attributes": parameters]
         let params = ["data": data]
         
         MBProgressHUD.showHUDAddedTo(view, animated: true)
         
-        Alamofire.request(.POST, "https://pokeapi.infinum.co/api/v1/users/login", parameters: params, encoding: .JSON).validate().responseJSON
+        Alamofire.request(.POST, "https://pokeapi.infinum.co/api/v1/users", parameters: params, encoding: .JSON).validate().responseJSON
             { (response) in
-                
-                MBProgressHUD.hideHUDForView(self.view, animated: true)
 
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
                 switch response.result {
                 case .Success:
                     print("Validation Successful")
@@ -56,7 +57,11 @@ class RootViewController: UIViewController {
                         let data = response.data!
                         let user: User = try Unbox(data)
                         print("\(user)")
-                        self.login(user)
+                        
+                        let homeViewController = self.storyboard?.instantiateViewControllerWithIdentifier("home") as! HomeViewController
+                        homeViewController.user = user
+                        self.navigationController?.pushViewController(homeViewController, animated: true)
+                        
                     } catch _ {
                         print("Failed")
                     }
@@ -64,23 +69,8 @@ class RootViewController: UIViewController {
                     print(error)
                 }
         }
-
-    }
-
-    @IBAction func signUpButtonClick(sender: AnyObject) {
-        
-        let viewController = storyboard?.instantiateViewControllerWithIdentifier("signup") as! RegistrationViewController
-        navigationController?.pushViewController(viewController, animated: true)
         
     }
-    
-    func login(user: User) {
-        
-        let viewController = storyboard?.instantiateViewControllerWithIdentifier("home") as! HomeViewController
-        viewController.user = user
-        navigationController?.pushViewController(viewController, animated: true)
-    }
-    
     /*
     // MARK: - Navigation
 
