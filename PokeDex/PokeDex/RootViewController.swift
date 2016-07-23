@@ -82,19 +82,11 @@ class RootViewController: UIViewController {
     
     func login(user: User) {
         
-        let viewController = storyboard?.instantiateViewControllerWithIdentifier("home") as! HomeViewController
-        viewController.user = user
-        navigationController?.pushViewController(viewController, animated: true)
+        getPokemons(user)
     }
+
+}
+
+extension RootViewController: PokemonGettable {
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

@@ -60,9 +60,7 @@ class RegistrationViewController: UIViewController {
                             let user: User = try Unbox(data)
                             print("\(user)")
                             
-                            let homeViewController = self.storyboard?.instantiateViewControllerWithIdentifier("home") as! HomeViewController
-                            homeViewController.user = user
-                            self.navigationController?.pushViewController(homeViewController, animated: true)
+                            self.getPokemons(user)
                         }
                         
                     } catch _ {
@@ -74,14 +72,9 @@ class RegistrationViewController: UIViewController {
         }
         
     }
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+}
+
+extension RegistrationViewController: PokemonGettable {
 
 }
