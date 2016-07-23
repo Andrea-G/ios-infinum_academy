@@ -24,6 +24,8 @@ struct Pokemon: Unboxable {
     let description: String?
     let totalVoteCount: Int?
     
+    let gender: String?
+    
     init(unboxer: Unboxer) {
         
         name = unboxer.unbox("attributes.name")
@@ -37,5 +39,7 @@ struct Pokemon: Unboxable {
         imageUrl = unboxer.unbox("image-url")
         description = unboxer.unbox("description")
         totalVoteCount = unboxer.unbox("total-vote-count")
+        
+        gender = "M"
     }
 }

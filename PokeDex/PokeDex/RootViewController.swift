@@ -31,6 +31,10 @@ class RootViewController: UIViewController {
         self.navigationController?.navigationBarHidden = false
     }
     
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.navigationBarHidden = true
+    }
+    
     @IBAction func logInButtonClick(sender: UIButton) {
         
         //print(usernameTextField.text)

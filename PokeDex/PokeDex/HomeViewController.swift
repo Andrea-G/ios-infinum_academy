@@ -87,3 +87,13 @@ extension HomeViewController: UITableViewDataSource {
     }
     
 }
+
+extension HomeViewController: UITableViewDelegate {
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let viewController = storyboard?.instantiateViewControllerWithIdentifier("pokemonDetails") as! PokemonDetailsTableViewController
+        viewController.pokemon = pokemons[indexPath.row]
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+}
