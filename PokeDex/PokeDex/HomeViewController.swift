@@ -29,11 +29,11 @@ class HomeViewController: UIViewController {
         
         //let image = UIImage(named: "icon_logout")
         
-        let button = UIButton(type: .Custom) as? UIButton
-        button?.setImage(UIImage(named: "icon_logout"), forState: UIControlState.Normal)
-        button?.addTarget(self, action:#selector(HomeViewController.logoutButtonClick), forControlEvents: UIControlEvents.TouchUpInside)
-        button?.frame=CGRectMake(0, 0, 30, 30)
-        let barButton = UIBarButtonItem(customView: button!)
+        let button = UIButton(type: .Custom)
+        button.setImage(UIImage(named: "icon_logout"), forState: UIControlState.Normal)
+        button.addTarget(self, action:#selector(HomeViewController.logoutButtonClick), forControlEvents: UIControlEvents.TouchUpInside)
+        button.frame=CGRectMake(0, 0, 30, 30)
+        let barButton = UIBarButtonItem(customView: button)
         self.navigationItem.leftBarButtonItem = barButton
         //print(user)
         
@@ -75,6 +75,13 @@ extension HomeViewController: UITableViewDataSource {
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("pokemonListCell") as UITableViewCell!
         
         cell.textLabel?.text = pokemons[indexPath.row].name
+        
+        if let imageUrl = pokemons[indexPath.row].imageUrl {
+            let url:NSURL = NSURL(string: imageUrl)!
+            let data:NSData = NSData(contentsOfURL: url)!
+            cell.imageView?.image = UIImage(data: data)
+        }
+
         
         return cell
     }
