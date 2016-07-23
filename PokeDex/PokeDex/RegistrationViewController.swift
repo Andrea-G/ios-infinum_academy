@@ -22,6 +22,8 @@ class RegistrationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = "Sign Up"
 
         // Do any additional setup after loading the view.
     }
@@ -54,13 +56,14 @@ class RegistrationViewController: UIViewController {
                     print("Validation Successful")
                     print("\(response)")
                     do {
-                        let data = response.data!
-                        let user: User = try Unbox(data)
-                        print("\(user)")
-                        
-                        let homeViewController = self.storyboard?.instantiateViewControllerWithIdentifier("home") as! HomeViewController
-                        homeViewController.user = user
-                        self.navigationController?.pushViewController(homeViewController, animated: true)
+                        if let data = response.data {
+                            let user: User = try Unbox(data)
+                            print("\(user)")
+                            
+                            let homeViewController = self.storyboard?.instantiateViewControllerWithIdentifier("home") as! HomeViewController
+                            homeViewController.user = user
+                            self.navigationController?.pushViewController(homeViewController, animated: true)
+                        }
                         
                     } catch _ {
                         print("Failed")

@@ -93,6 +93,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4238E2AF1D4359CA0065A194 /* Custom cells */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Custom cells";
+			sourceTree = "<group>";
+		};
 		42AB1C611D30F6AA000382AD = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +125,7 @@
 		42AB1C6C1D30F6AA000382AD /* PokeDex */ = {
 			isa = PBXGroup;
 			children = (
+				4238E2AF1D4359CA0065A194 /* Custom cells */,
 				42AB1C6D1D30F6AA000382AD /* AppDelegate.swift */,
 				42AB1C711D30F6AA000382AD /* Main.storyboard */,
 				42AB1C741D30F6AA000382AD /* Assets.xcassets */,

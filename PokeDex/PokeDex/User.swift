@@ -17,7 +17,7 @@ struct User: Unboxable {
     
     init(unboxer: Unboxer) {
         authToken = unboxer.unbox("data.attributes.auth-token")
-            email = unboxer.unbox("data.attributes.email")
-            username = unboxer.unbox("data.attributes.username")
+        email = unboxer.unbox("data.attributes.email")
+        username = unboxer.unbox("data.attributes.username")
     }
 }
