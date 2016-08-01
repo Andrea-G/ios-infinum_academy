@@ -29,13 +29,20 @@ class HomeViewController: UIViewController {
         
         //let image = UIImage(named: "icon_logout")
         
-        let button = UIButton(type: .Custom)
-        button.setImage(UIImage(named: "icon_logout"), forState: UIControlState.Normal)
-        button.addTarget(self, action:#selector(HomeViewController.logoutButtonClick), forControlEvents: UIControlEvents.TouchUpInside)
-        button.frame=CGRectMake(0, 0, 30, 30)
-        let barButton = UIBarButtonItem(customView: button)
-        self.navigationItem.leftBarButtonItem = barButton
+        let logoutButton = UIButton(type: .Custom)
+        logoutButton.setImage(UIImage(named: "icon_logout"), forState: UIControlState.Normal)
+        logoutButton.addTarget(self, action:#selector(HomeViewController.logoutButtonClick), forControlEvents: UIControlEvents.TouchUpInside)
+        logoutButton.frame=CGRectMake(0, 0, 30, 30)
+        let barButtonLeft = UIBarButtonItem(customView: logoutButton)
+        self.navigationItem.leftBarButtonItem = barButtonLeft
         //print(user)
+        
+        let addPokemonButton = UIButton(type: .Custom)
+        addPokemonButton.setImage(UIImage(named: "add_image_button"), forState: UIControlState.Normal)
+        addPokemonButton.addTarget(self, action:#selector(HomeViewController.addPokemonButtonClick), forControlEvents: UIControlEvents.TouchUpInside)
+        addPokemonButton.frame=CGRectMake(0, 0, 30, 30)
+        let barButtonRight = UIBarButtonItem(customView: addPokemonButton)
+        self.navigationItem.rightBarButtonItem = barButtonRight
         
         print(pokemons)
         // Do any additional setup after loading the view.
@@ -61,6 +68,13 @@ class HomeViewController: UIViewController {
         }
 
         self.navigationController?.popToRootViewControllerAnimated(true)
+    }
+    
+    func addPokemonButtonClick() {
+        
+        let viewController = storyboard?.instantiateViewControllerWithIdentifier("addPokemon") as! AddPokemonViewController
+        navigationController?.pushViewController(viewController, animated: true)
+
     }
 
 }

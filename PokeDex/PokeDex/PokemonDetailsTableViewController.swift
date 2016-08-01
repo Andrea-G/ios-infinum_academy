@@ -55,12 +55,13 @@ class PokemonDetailsTableViewController: UITableViewController {
             let cell = tableView.dequeueReusableCellWithIdentifier("general") as! PokemonGeneralDetailsTableViewCell
             
             cell.pokemonNameLabel.text = pokemon.name
-            cell.pokemonInfoLabel.text = "Bulbasaur is a small, quadruped Pokémon that has blue-green skin with darker green patches. It has red eyes with white pupils and pointed, ear-like structures on top of its head. Its snout is short and blunt, and it has a wide mouth. A pair of small, pointed teeth are visible in the upper jaw when its mouth is open. Each of its thick legs ends with three sharp claws. On its back is a green plant bulb, which is grown from a seed planted there at birth. The bulb provides it with energy through photosynthesis as well as from the nutrient-rich seeds contained within."
-//            if let imageUrl = pokemon.imageUrl {
-//                let url:NSURL = NSURL(string: imageUrl)!
-//                let data:NSData = NSData(contentsOfURL: url)!
-//                cell.imageView?.image = UIImage(data: data)
-//            }
+            cell.pokemonInfoLabel.text = pokemon.description
+            print(pokemon.description)
+            if let imageUrl = pokemon.imageUrl {
+                let url:NSURL = NSURL(string: imageUrl)!
+                let data:NSData = NSData(contentsOfURL: url)!
+                cell.imageView?.image = UIImage(data: data)
+            }
             
             print(cell.pokemonInfoLabel)
             print(cell.pokemonNameLabel)

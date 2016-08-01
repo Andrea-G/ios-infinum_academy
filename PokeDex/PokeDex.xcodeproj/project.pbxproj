@@ -12,6 +12,8 @@
 		4238E2B31D43785A0065A194 /* PokemonList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4238E2B21D43785A0065A194 /* PokemonList.swift */; };
 		4238E2B51D4379160065A194 /* Pokemon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4238E2B41D4379160065A194 /* Pokemon.swift */; };
 		4238E2B81D438AEC0065A194 /* PokemonGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4238E2B71D438AEC0065A194 /* PokemonGettable.swift */; };
+		424FF13B1D4F5AC800AA98A4 /* AddPokemonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424FF13A1D4F5AC800AA98A4 /* AddPokemonViewController.swift */; };
+		425BF5861D4F76120059DF8C /* AddPokemonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425BF5851D4F76120059DF8C /* AddPokemonTableViewCell.swift */; };
 		42AB1C6E1D30F6AA000382AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AB1C6D1D30F6AA000382AD /* AppDelegate.swift */; };
 		42AB1C731D30F6AA000382AD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42AB1C711D30F6AA000382AD /* Main.storyboard */; };
 		42AB1C751D30F6AA000382AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42AB1C741D30F6AA000382AD /* Assets.xcassets */; };
@@ -50,6 +52,8 @@
 		4238E2B21D43785A0065A194 /* PokemonList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PokemonList.swift; sourceTree = "<group>"; };
 		4238E2B41D4379160065A194 /* Pokemon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pokemon.swift; sourceTree = "<group>"; };
 		4238E2B71D438AEC0065A194 /* PokemonGettable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PokemonGettable.swift; sourceTree = "<group>"; };
+		424FF13A1D4F5AC800AA98A4 /* AddPokemonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPokemonViewController.swift; sourceTree = "<group>"; };
+		425BF5851D4F76120059DF8C /* AddPokemonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPokemonTableViewCell.swift; sourceTree = "<group>"; };
 		42AB1C6A1D30F6AA000382AD /* PokeDex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokeDex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		42AB1C6D1D30F6AA000382AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		42AB1C721D30F6AA000382AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -110,6 +114,7 @@
 			children = (
 				6BBD60AC1D43C3BB002DAB91 /* PokemonGeneralDetailsTableViewCell.swift */,
 				6BBD60AE1D43EE0D002DAB91 /* LikeDislikeTableViewCell.swift */,
+				425BF5851D4F76120059DF8C /* AddPokemonTableViewCell.swift */,
 			);
 			name = "Custom cells";
 			sourceTree = "<group>";
@@ -161,6 +166,7 @@
 				4238E2B21D43785A0065A194 /* PokemonList.swift */,
 				4238E2B41D4379160065A194 /* Pokemon.swift */,
 				6BBD60AA1D43BD4E002DAB91 /* PokemonDetailsTableViewController.swift */,
+				424FF13A1D4F5AC800AA98A4 /* AddPokemonViewController.swift */,
 			);
 			path = PokeDex;
 			sourceTree = "<group>";
@@ -381,9 +387,11 @@
 				4238E2AA1D3E843F0065A194 /* User.swift in Sources */,
 				6BBD60AF1D43EE0D002DAB91 /* LikeDislikeTableViewCell.swift in Sources */,
 				6BBD60AD1D43C3BB002DAB91 /* PokemonGeneralDetailsTableViewCell.swift in Sources */,
+				425BF5861D4F76120059DF8C /* AddPokemonTableViewCell.swift in Sources */,
 				42D477FB1D311DBD004B0F8A /* HomeViewController.swift in Sources */,
 				4238E2AE1D3E87690065A194 /* RegistrationViewController.swift in Sources */,
 				4238E2B31D43785A0065A194 /* PokemonList.swift in Sources */,
+				424FF13B1D4F5AC800AA98A4 /* AddPokemonViewController.swift in Sources */,
 				6BBD60AB1D43BD4E002DAB91 /* PokemonDetailsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
