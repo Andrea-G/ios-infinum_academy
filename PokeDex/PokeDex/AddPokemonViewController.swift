@@ -8,14 +8,18 @@
 
 import UIKit
 
-class AddPokemonViewController: UIViewController {
+class AddPokemonViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var pokemonImage: UIImageView!
     
+    let imagePicker = UIImagePickerController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        imagePicker.delegate = self
         
         self.title = "Add new Pokemon"
 
@@ -28,7 +32,10 @@ class AddPokemonViewController: UIViewController {
     
     @IBAction func addImageButtonClick(sender: AnyObject) {
         
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .PhotoLibrary
         
+        presentViewController(imagePicker, animated: true, completion: nil)
     }
     
     @IBAction func saveButtonClick(sender: AnyObject) {
@@ -93,6 +100,21 @@ class AddPokemonViewController: UIViewController {
 //                    print(error)
 //                }
 //        }
+    }
+    
+    // MARK: - UIImagePickerControllerDelegate Methods
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            pokemonImage.contentMode = .ScaleAspectFit
+            pokemonImage.image = pickedImage
+        }
+        
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        dismissViewControllerAnimated(true, completion: nil)
     }
 
 }

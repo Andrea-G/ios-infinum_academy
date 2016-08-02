@@ -18,8 +18,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ypc-rs-JsA">
-                                <rect key="frame" x="0.0" y="87" width="600" height="513"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ypc-rs-JsA">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="pokemonListCell" textLabel="0Z0-E1-Ss5" style="IBUITableViewCellStyleDefault" id="irb-nC-R1N">
@@ -47,6 +47,12 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Ypc-rs-JsA" firstAttribute="leading" secondItem="jKh-4Z-kbb" secondAttribute="leading" id="KEx-Xc-Q4B"/>
+                            <constraint firstItem="T2O-cL-LcK" firstAttribute="top" secondItem="Ypc-rs-JsA" secondAttribute="bottom" id="PYc-U8-yWb"/>
+                            <constraint firstItem="Ypc-rs-JsA" firstAttribute="top" secondItem="jKh-4Z-kbb" secondAttribute="top" id="qNi-eW-URj"/>
+                            <constraint firstAttribute="trailing" secondItem="Ypc-rs-JsA" secondAttribute="trailing" id="z9O-pn-oqq"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="tableView" destination="Ypc-rs-JsA" id="AOg-hx-456"/>
