@@ -29,16 +29,16 @@ struct Pokemon: Unboxable {
     init(unboxer: Unboxer) {
         
         name = unboxer.unbox("attributes.name")
-        baseExperience = unboxer.unbox("base-experience")
-        isDefault = unboxer.unbox("is-default")
-        order = unboxer.unbox("order")
-        height = unboxer.unbox("height")
-        weight = unboxer.unbox("weight")
-        createdAt = unboxer.unbox("created-at")
-        updatedAt = unboxer.unbox("updated-at")
-        imageUrl = unboxer.unbox("image-url")
-        description = unboxer.unbox("description")
-        totalVoteCount = unboxer.unbox("total-vote-count")
+        baseExperience = unboxer.unbox("attributes.base-experience")
+        isDefault = unboxer.unbox("attributes.is-default")
+        order = unboxer.unbox("attributes.order")
+        height = unboxer.unbox("attributes.height")
+        weight = unboxer.unbox("attributes.weight")
+        createdAt = unboxer.unbox("attributes.created-at")
+        updatedAt = unboxer.unbox("attributes.updated-at")
+        imageUrl = unboxer.unbox("attributes.image-url")
+        description = unboxer.unbox("attributes.description")
+        totalVoteCount = unboxer.unbox("attributes.total-vote-count")
         
         gender = "M"
     }

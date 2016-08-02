@@ -8,7 +8,14 @@
 
 import UIKit
 
-class AddPokemonViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
+import Alamofire
+import MBProgressHUD
+
+class AddPokemonViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    var user: User!
+    
+    weak var delegate: PokemonAddedDelegate?
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var saveButton: UIButton!
@@ -36,6 +43,7 @@ class AddPokemonViewController: UIViewController, UIImagePickerControllerDelegat
         imagePicker.sourceType = .PhotoLibrary
         
         presentViewController(imagePicker, animated: true, completion: nil)
+        
     }
     
     @IBAction func saveButtonClick(sender: AnyObject) {
@@ -71,35 +79,41 @@ class AddPokemonViewController: UIViewController, UIImagePickerControllerDelegat
         
         let description = cell?.textView.text
         
-//        let parameters = ["username": username!, "password": password!, "email": email!, "password_confirmation": password_confirmation!]
-//        let data = ["type": "users", "attributes": parameters]
-//        let params = ["data": data]
-//        
-//        MBProgressHUD.showHUDAddedTo(view, animated: true)
-//        
-//        Alamofire.request(.POST, "https://pokeapi.infinum.co/api/v1/users", parameters: params, encoding: .JSON).validate().responseJSON
-//            { (response) in
-//                
-//                MBProgressHUD.hideHUDForView(self.view, animated: true)
-//                switch response.result {
-//                case .Success:
-//                    print("Validation Successful")
-//                    print("\(response)")
-//                    do {
-//                        if let data = response.data {
-//                            let user: User = try Unbox(data)
-//                            print("\(user)")
-//                            
-//                            self.getPokemons(user)
-//                        }
-//                        
-//                    } catch _ {
-//                        print("Failed")
-//                    }
-//                case .Failure(let error):
-//                    print(error)
-//                }
-//        }
+        let headers = [
+            "Authorization": user.authorization,
+            ]
+
+        let attributes = ["name": name!, "height": height!, "weight": weight!, "order": "36", "is_default": "1", "gender_id": "1", "description": "Some pokemon"]
+        
+        Alamofire.upload(.POST, "https://pokeapi.infinum.co/api/v1/pokemons", headers: headers, multipartFormData: {
+            multipartFormData in
+            if let image = self.pokemonImage.image {
+                if let imageData = UIImageJPEGRepresentation(image, 0.8) {
+                    multipartFormData.appendBodyPart(data: imageData, name: "data[attributes][image]", fileName: "file.jpeg", mimeType: "image/jpeg")
+                }
+            }
+            for (key, value) in attributes {
+                multipartFormData.appendBodyPart(data: value.dataUsingEncoding(NSUTF8StringEncoding)!, name: "data[attributes][" + (key) + "]")
+            }
+            }, encodingCompletion: {
+                encodingResult in
+                switch encodingResult {
+                case .Success(let upload, _, _):
+                    upload.responseString(completionHandler: { (response) in
+                        if let data = response.data {
+                            print(String(data: data, encoding: NSUTF8StringEncoding))
+                        }
+                        print(response.response)
+                        if let delegate = self.delegate {
+                            delegate.didAddPokemon(name!)
+                        }
+                    })
+                    //self.navigationController?.popViewControllerAnimated(true)
+                    
+                case .Failure(let encodingError):
+                    print(encodingError)
+                }
+        })
     }
     
     // MARK: - UIImagePickerControllerDelegate Methods

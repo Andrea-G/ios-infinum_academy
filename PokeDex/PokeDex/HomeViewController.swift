@@ -11,7 +11,7 @@ import UIKit
 import Alamofire
 import Unbox
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, PokemonAddedDelegate, PokemonGettable {
     
     var user: User!
     var authorization: String = ""
@@ -25,7 +25,7 @@ class HomeViewController: UIViewController {
         
         self.title = "Pokedex"
         
-        authorization = "Token token=" + user.authToken + ", email=" + user.email
+        authorization = user.authorization
         
         //let image = UIImage(named: "icon_logout")
         
@@ -73,8 +73,15 @@ class HomeViewController: UIViewController {
     func addPokemonButtonClick() {
         
         let viewController = storyboard?.instantiateViewControllerWithIdentifier("addPokemon") as! AddPokemonViewController
+        viewController.user = user
+        viewController.delegate = self
         navigationController?.pushViewController(viewController, animated: true)
+        
 
+    }
+    
+    func didAddPokemon(name: String) {
+        getPokemons(user)
     }
 
 }
@@ -89,11 +96,14 @@ extension HomeViewController: UITableViewDataSource {
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("pokemonListCell") as UITableViewCell!
         
         cell.textLabel?.text = pokemons[indexPath.row].name
-        
         if let imageUrl = pokemons[indexPath.row].imageUrl {
-            let url:NSURL = NSURL(string: imageUrl)!
-            let data:NSData = NSData(contentsOfURL: url)!
-            cell.imageView?.image = UIImage(data: data)
+            let url:NSURL = NSURL(string: "https://pokeapi.infinum.co" + imageUrl)!
+            print(indexPath.row)
+            if let data:NSData = NSData(contentsOfURL: url) {
+                cell.imageView?.image = UIImage(data: data)
+                cell.imageView?.contentMode = .ScaleAspectFit
+                
+            }
         }
 
         
