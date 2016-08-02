@@ -23,4 +23,12 @@ struct User: Unboxable {
         
         authorization = "Token token=" + authToken + ", email=" + email
     }
+    
+    init(authToken: String, email: String, username: String){
+        self.authToken = authToken
+        self.email = email
+        self.username = username
+        
+        authorization = "Token token=" + authToken + ", email=" + email
+    }
 }

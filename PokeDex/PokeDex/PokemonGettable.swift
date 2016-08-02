@@ -16,6 +16,14 @@ protocol PokemonGettable {
 extension PokemonGettable where Self: UIViewController {
     
     func getPokemons(user: User){
+        
+        NSUserDefaults.standardUserDefaults().setObject(user.authToken, forKey:
+            "auth-token")
+        NSUserDefaults.standardUserDefaults().setObject(user.email, forKey:
+            "email")
+        NSUserDefaults.standardUserDefaults().setObject(user.username, forKey:
+            "username")
+        
         let headers = [
             "Authorization": user.authorization,
             ]

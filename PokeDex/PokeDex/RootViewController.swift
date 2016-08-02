@@ -19,7 +19,9 @@ class RootViewController: UIViewController {
     @IBOutlet weak var logInButton: UIButton!
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        
+        //super.viewDidLoad()
+        loadFromUserDefaults()
         self.navigationController?.navigationBarHidden = true
 
         // Do any additional setup after loading the view.
@@ -33,6 +35,26 @@ class RootViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.navigationBarHidden = true
+
+    }
+    
+    func loadFromUserDefaults() {
+        
+        let ud = NSUserDefaults.standardUserDefaults()
+        
+        let email: String? = ud.stringForKey("email")
+        
+        let username: String? = ud.stringForKey("username")
+        
+        let token: String? = ud.stringForKey("auth-token")
+        
+        if email != nil && username != nil && token != nil {
+            
+            let user = User(authToken: token!, email: email!, username: username!)
+            login(user)
+        }
+        
+
     }
     
     @IBAction func logInButtonClick(sender: UIButton) {
@@ -40,14 +62,14 @@ class RootViewController: UIViewController {
         //print(usernameTextField.text)
         //print(passwordTextField.text)
         
-        //let username = usernameTextField.text
-        //let password = passwordTextField.text
+        let username = usernameTextField.text
+        let password = passwordTextField.text
         
-        let username = "andrea@mail.com"
-        let password = "andrea123"
+        //let username = "andrea@mail.com"
+        //let password = "andrea123"
         
-        //let parameters = ["password": password!, "email": username!]
-        let parameters = ["password": password, "email": username]
+        let parameters = ["password": password!, "email": username!]
+        //let parameters = ["password": password, "email": username]
         let data = ["type": "session", "attributes": parameters]
         let params = ["data": data]
         

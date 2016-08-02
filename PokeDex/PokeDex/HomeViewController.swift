@@ -98,7 +98,6 @@ extension HomeViewController: UITableViewDataSource {
         cell.textLabel?.text = pokemons[indexPath.row].name
         if let imageUrl = pokemons[indexPath.row].imageUrl {
             let url:NSURL = NSURL(string: "https://pokeapi.infinum.co" + imageUrl)!
-            print(indexPath.row)
             if let data:NSData = NSData(contentsOfURL: url) {
                 cell.imageView?.image = UIImage(data: data)
                 cell.imageView?.contentMode = .ScaleAspectFit
