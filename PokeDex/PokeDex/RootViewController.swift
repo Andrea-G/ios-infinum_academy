@@ -12,7 +12,7 @@ import MBProgressHUD
 import Alamofire
 import Unbox
 
-class RootViewController: UIViewController {
+class RootViewController: UIViewController, Login, LoadUser, StoreUser {
 
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
@@ -20,7 +20,7 @@ class RootViewController: UIViewController {
     
     override func viewDidLoad() {
         
-        //super.viewDidLoad()
+        super.viewDidLoad()
         loadFromUserDefaults()
         self.navigationController?.navigationBarHidden = true
 
@@ -39,63 +39,20 @@ class RootViewController: UIViewController {
     }
     
     func loadFromUserDefaults() {
-        
-        let ud = NSUserDefaults.standardUserDefaults()
-        
-        let email: String? = ud.stringForKey("email")
-        
-        let username: String? = ud.stringForKey("username")
-        
-        let token: String? = ud.stringForKey("auth-token")
-        
-        if email != nil && username != nil && token != nil {
-            
-            let user = User(authToken: token!, email: email!, username: username!)
-            login(user)
+
+        if let loadedUser = loadUser(){
+            let user = User(authToken: loadedUser.token, email: loadedUser.email, username: loadedUser.username)
+            didAddUser(user)
         }
         
-
     }
     
     @IBAction func logInButtonClick(sender: UIButton) {
         
-        //print(usernameTextField.text)
-        //print(passwordTextField.text)
-        
         let username = usernameTextField.text
         let password = passwordTextField.text
         
-        //let username = "andrea@mail.com"
-        //let password = "andrea123"
-        
-        let parameters = ["password": password!, "email": username!]
-        //let parameters = ["password": password, "email": username]
-        let data = ["type": "session", "attributes": parameters]
-        let params = ["data": data]
-        
-        MBProgressHUD.showHUDAddedTo(view, animated: true)
-        
-        Alamofire.request(.POST, "https://pokeapi.infinum.co/api/v1/users/login", parameters: params, encoding: .JSON).validate().responseJSON
-            { (response) in
-                
-                MBProgressHUD.hideHUDForView(self.view, animated: true)
-
-                switch response.result {
-                case .Success:
-                    print("Validation Successful")
-                    print("\(response)")
-                    do {
-                        let data = response.data!
-                        let user: User = try Unbox(data)
-                        print("\(user)")
-                        self.login(user)
-                    } catch _ {
-                        print("Failed")
-                    }
-                case .Failure(let error):
-                    print(error)
-                }
-        }
+        userLogin(username!, password: password!, nextViewController: self)
 
     }
 
@@ -105,14 +62,18 @@ class RootViewController: UIViewController {
         navigationController?.pushViewController(viewController, animated: true)
         
     }
-    
-    func login(user: User) {
-        
-        getPokemons(user)
-    }
 
 }
 
-extension RootViewController: PokemonGettable {
+
+extension RootViewController: UserAdded {
     
+    func didAddUser(user: User) {
+        
+        let homeViewController = self.storyboard?.instantiateViewControllerWithIdentifier("home") as! HomeViewController
+        homeViewController.user = user
+        storeUser(user)
+        homeViewController.getPokemons()
+        navigationController?.pushViewController(homeViewController, animated: true)
+    }
 }

@@ -12,69 +12,31 @@ import Alamofire
 import Unbox
 import MBProgressHUD
 
-class RegistrationViewController: UIViewController {
+class RegistrationViewController: UIViewController, Signup {
 
     
     @IBOutlet weak var confirmPasswordTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var nicknameTextField: UITextField!
+    
+    weak var rootViewController : UserAdded?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Sign Up"
 
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func signUpButtonClick(sender: AnyObject) {
         
-        
         let username = nicknameTextField.text
         let password = passwordTextField.text
         let email = emailTextField.text
-        let password_confirmation = confirmPasswordTextField.text
+        let passwordConfirmation = confirmPasswordTextField.text
         
-        let parameters = ["username": username!, "password": password!, "email": email!, "password_confirmation": password_confirmation!]
-        let data = ["type": "users", "attributes": parameters]
-        let params = ["data": data]
-        
-        MBProgressHUD.showHUDAddedTo(view, animated: true)
-        
-        Alamofire.request(.POST, "https://pokeapi.infinum.co/api/v1/users", parameters: params, encoding: .JSON).validate().responseJSON
-            { (response) in
-
-                MBProgressHUD.hideHUDForView(self.view, animated: true)
-                switch response.result {
-                case .Success:
-                    print("Validation Successful")
-                    print("\(response)")
-                    do {
-                        if let data = response.data {
-                            let user: User = try Unbox(data)
-                            print("\(user)")
-                            
-                            self.getPokemons(user)
-                        }
-                        
-                    } catch _ {
-                        print("Failed")
-                    }
-                case .Failure(let error):
-                    print(error)
-                }
-        }
-        
+        userSignup(username!, password: password!, email: email!, passwordConfirmation : passwordConfirmation!, nextViewController: rootViewController!)
     }
-
-}
-
-extension RegistrationViewController: PokemonGettable {
 
 }

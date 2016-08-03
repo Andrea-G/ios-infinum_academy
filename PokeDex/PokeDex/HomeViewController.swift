@@ -10,13 +10,14 @@ import UIKit
 
 import Alamofire
 import Unbox
+import MBProgressHUD
 
-class HomeViewController: UIViewController, PokemonAddedDelegate, PokemonGettable {
+class HomeViewController: UIViewController, PokemonAddedDelegate, RemoveUser{
     
     var user: User!
     var authorization: String = ""
-    var pokemons: [Pokemon]!
-
+    var pokemons = [Pokemon]()
+    
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -29,23 +30,30 @@ class HomeViewController: UIViewController, PokemonAddedDelegate, PokemonGettabl
         
         //let image = UIImage(named: "icon_logout")
         
+        addLeftBarButtonItem()
+        addRightBarButtonItem()
+        
+    }
+    
+    func addLeftBarButtonItem(){
+        
         let logoutButton = UIButton(type: .Custom)
         logoutButton.setImage(UIImage(named: "icon_logout"), forState: UIControlState.Normal)
         logoutButton.addTarget(self, action:#selector(HomeViewController.logoutButtonClick), forControlEvents: UIControlEvents.TouchUpInside)
-        logoutButton.frame=CGRectMake(0, 0, 30, 30)
+        logoutButton.frame=CGRectMake(0, 0, 50, 50)
         let barButtonLeft = UIBarButtonItem(customView: logoutButton)
         self.navigationItem.leftBarButtonItem = barButtonLeft
-        //print(user)
+        
+    }
+    
+    func addRightBarButtonItem(){
         
         let addPokemonButton = UIButton(type: .Custom)
         addPokemonButton.setImage(UIImage(named: "add_image_button"), forState: UIControlState.Normal)
         addPokemonButton.addTarget(self, action:#selector(HomeViewController.addPokemonButtonClick), forControlEvents: UIControlEvents.TouchUpInside)
-        addPokemonButton.frame=CGRectMake(0, 0, 30, 30)
+        addPokemonButton.frame=CGRectMake(0, 0, 50, 50)
         let barButtonRight = UIBarButtonItem(customView: addPokemonButton)
         self.navigationItem.rightBarButtonItem = barButtonRight
-        
-        print(pokemons)
-        // Do any additional setup after loading the view.
     }
     
     func logoutButtonClick() {
@@ -61,6 +69,7 @@ class HomeViewController: UIViewController, PokemonAddedDelegate, PokemonGettabl
                 case .Success:
                     print("Logout Successful")
                     print("\(response)")
+                    self.removeUser()
                     
                 case .Failure(let error):
                     print(error)
@@ -81,8 +90,9 @@ class HomeViewController: UIViewController, PokemonAddedDelegate, PokemonGettabl
     }
     
     func didAddPokemon(name: String) {
-        getPokemons(user)
+        getPokemons()
     }
+    
 
 }
 
@@ -104,7 +114,6 @@ extension HomeViewController: UITableViewDataSource {
                 
             }
         }
-
         
         return cell
     }
@@ -118,5 +127,39 @@ extension HomeViewController: UITableViewDelegate {
         let viewController = storyboard?.instantiateViewControllerWithIdentifier("pokemonDetails") as! PokemonDetailsTableViewController
         viewController.pokemon = pokemons[indexPath.row]
         navigationController?.pushViewController(viewController, animated: true)
+    }
+}
+
+
+extension HomeViewController : PokemonGettable {
+    
+    func getPokemons(){
+        
+        let headers = ["Authorization": user.authorization,]
+        MBProgressHUD.showHUDAddedTo(view, animated: true)
+        
+        Alamofire.request(.GET, "https://pokeapi.infinum.co/api/v1/pokemons", headers: headers, encoding: .JSON).validate().responseJSON
+            { (response) in
+                
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
+                switch response.result {
+                case .Success:
+                    print("Successful")
+
+                    do {
+                        let data = response.data!
+                        let pokemonList : PokemonList = try Unbox(data)
+                        print("\(pokemonList.pokemons)")
+                        
+                        self.pokemons = pokemonList.pokemons
+                        self.tableView.reloadData()
+                        
+                    } catch _ {
+                        print("Failed")
+                    }
+                case .Failure(let error):
+                    print(error)
+                }
+        }
     }
 }

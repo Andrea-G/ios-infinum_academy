@@ -108,7 +108,7 @@ class AddPokemonViewController: UIViewController, UIImagePickerControllerDelegat
                             delegate.didAddPokemon(name!)
                         }
                     })
-                    //self.navigationController?.popViewControllerAnimated(true)
+                    self.navigationController?.popViewControllerAnimated(true)
                     
                 case .Failure(let encodingError):
                     print(encodingError)

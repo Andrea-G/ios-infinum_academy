@@ -11,6 +11,7 @@ import Foundation
 import Unbox
 
 struct User: Unboxable {
+    
     let authToken: String
     let email: String
     let username: String
