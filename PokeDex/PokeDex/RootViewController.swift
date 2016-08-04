@@ -12,7 +12,7 @@ import MBProgressHUD
 import Alamofire
 import Unbox
 
-class RootViewController: UIViewController, Login, LoadUser, StoreUser {
+class RootViewController: UIViewController, LoadUser, StoreUser {
 
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
@@ -39,7 +39,6 @@ class RootViewController: UIViewController, Login, LoadUser, StoreUser {
     
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.navigationBarHidden = true
-
     }
     
     func loadFromUserDefaults() {
@@ -130,5 +129,44 @@ extension RootViewController: UserAdded {
         storeUser(user)
         homeViewController.getPokemons()
         navigationController?.pushViewController(homeViewController, animated: true)
+    }
+}
+
+
+extension RootViewController: Login {
+    
+    func userLogin(username: String, password: String, nextViewController: UserAdded){
+        
+        let parameters = ["password": password, "email": username]
+        let data = ["type": "session", "attributes": parameters]
+        let params = ["data": data]
+        
+        MBProgressHUD.showHUDAddedTo(view, animated: true)
+        
+        Alamofire.request(.POST, "https://pokeapi.infinum.co/api/v1/users/login", parameters: params, encoding: .JSON).validate().responseJSON
+            { (response) in
+                
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
+                
+                switch response.result {
+                case .Success:
+                    print("Validation Successful")
+                    print("\(response)")
+                    do {
+                        let data = response.data!
+                        let user: User = try Unbox(data)
+                        
+                        nextViewController.didAddUser(user)
+                        
+                        print("\(user)")
+                        //self.login(user)
+                    } catch _ {
+                        print("Failed")
+                    }
+                case .Failure(let error):
+                    print(error)
+                }
+        }
+        
     }
 }

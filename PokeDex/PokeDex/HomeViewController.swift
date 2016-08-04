@@ -26,9 +26,7 @@ class HomeViewController: UIViewController, PokemonAddedDelegate, RemoveUser{
         
         self.title = "Pokedex"
         
-        authorization = user.authorization
-        
-        //let image = UIImage(named: "icon_logout")
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
         addLeftBarButtonItem()
         addRightBarButtonItem()
@@ -49,7 +47,7 @@ class HomeViewController: UIViewController, PokemonAddedDelegate, RemoveUser{
     func addRightBarButtonItem(){
         
         let addPokemonButton = UIButton(type: .Custom)
-        addPokemonButton.setImage(UIImage(named: "add_image_button"), forState: UIControlState.Normal)
+        addPokemonButton.setImage(UIImage(named: "icon_add"), forState: UIControlState.Normal)
         addPokemonButton.addTarget(self, action:#selector(HomeViewController.addPokemonButtonClick), forControlEvents: UIControlEvents.TouchUpInside)
         addPokemonButton.frame=CGRectMake(0, 0, 50, 50)
         let barButtonRight = UIBarButtonItem(customView: addPokemonButton)
@@ -57,26 +55,7 @@ class HomeViewController: UIViewController, PokemonAddedDelegate, RemoveUser{
     }
     
     func logoutButtonClick() {
-        
-        let headers = [
-            "Authorization": authorization,
-        ]
-        
-        Alamofire.request(.DELETE, "https://pokeapi.infinum.co/api/v1/users/logout", headers: headers, encoding: .JSON).validate().responseJSON
-            { (response) in
-
-                switch response.result {
-                case .Success:
-                    print("Logout Successful")
-                    print("\(response)")
-                    self.removeUser()
-                    
-                case .Failure(let error):
-                    print(error)
-                }
-        }
-
-        self.navigationController?.popToRootViewControllerAnimated(true)
+        userLogout(user.authorization)
     }
     
     func addPokemonButtonClick() {
@@ -85,12 +64,32 @@ class HomeViewController: UIViewController, PokemonAddedDelegate, RemoveUser{
         viewController.user = user
         viewController.delegate = self
         navigationController?.pushViewController(viewController, animated: true)
-        
-
     }
     
     func didAddPokemon(name: String) {
         getPokemons()
+    }
+    
+    func adjustRoundImage(imageView: UIImageView?, hasImage: Bool){
+        
+        var layer: CALayer = CALayer()
+        layer = (imageView?.layer)!
+        
+        layer.masksToBounds = true
+        layer.cornerRadius = CGFloat(25)
+        
+        let itemSize = CGSizeMake(50, 50)
+        UIGraphicsBeginImageContextWithOptions(itemSize, false, UIScreen.mainScreen().scale)
+        let imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height)
+        
+        if !hasImage {
+            imageView?.image = UIImage(named: "image_placeholder")
+        }
+        
+        imageView?.image!.drawInRect(imageRect)
+        imageView?.image! = UIGraphicsGetImageFromCurrentImageContext()
+
+        UIGraphicsEndImageContext()
     }
     
 
@@ -106,14 +105,25 @@ extension HomeViewController: UITableViewDataSource {
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("pokemonListCell") as UITableViewCell!
         
         cell.textLabel?.text = pokemons[indexPath.row].name
+        cell.imageView?.contentMode = .ScaleAspectFit
+        
+        var hasImage = false
+        
         if let imageUrl = pokemons[indexPath.row].imageUrl {
+            
             let url:NSURL = NSURL(string: "https://pokeapi.infinum.co" + imageUrl)!
             if let data:NSData = NSData(contentsOfURL: url) {
+                
                 cell.imageView?.image = UIImage(data: data)
-                cell.imageView?.contentMode = .ScaleAspectFit
+                
+                if cell.imageView?.image != nil {
+                    hasImage = true
+                }
                 
             }
         }
+        
+        adjustRoundImage(cell.imageView, hasImage: hasImage)
         
         return cell
     }
@@ -161,5 +171,31 @@ extension HomeViewController : PokemonGettable {
                     print(error)
                 }
         }
+    }
+}
+
+extension HomeViewController : Logout {
+
+    func userLogout(authorization: String) {
+        
+        let headers = [
+            "Authorization": authorization,
+            ]
+        
+        Alamofire.request(.DELETE, "https://pokeapi.infinum.co/api/v1/users/logout", headers: headers, encoding: .JSON).validate().responseJSON
+            { (response) in
+                
+                switch response.result {
+                case .Success:
+                    print("Logout Successful")
+                    print("\(response)")
+                    self.removeUser()
+                    
+                case .Failure(let error):
+                    print(error)
+                }
+        }
+        
+        self.navigationController?.popToRootViewControllerAnimated(true)
     }
 }

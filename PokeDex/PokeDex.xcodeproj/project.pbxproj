@@ -13,6 +13,7 @@
 		4238E2B51D4379160065A194 /* Pokemon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4238E2B41D4379160065A194 /* Pokemon.swift */; };
 		4238E2B81D438AEC0065A194 /* PokemonGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4238E2B71D438AEC0065A194 /* PokemonGettable.swift */; };
 		42406BF31D53652F00C28677 /* EditTextWithImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42406BF21D53652F00C28677 /* EditTextWithImageTableViewCell.swift */; };
+		42406BF51D537FD000C28677 /* Logout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42406BF41D537FD000C28677 /* Logout.swift */; };
 		424FF13B1D4F5AC800AA98A4 /* AddPokemonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424FF13A1D4F5AC800AA98A4 /* AddPokemonViewController.swift */; };
 		425BF5861D4F76120059DF8C /* AddPokemonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425BF5851D4F76120059DF8C /* AddPokemonTableViewCell.swift */; };
 		42AB1C6E1D30F6AA000382AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AB1C6D1D30F6AA000382AD /* AppDelegate.swift */; };
@@ -61,6 +62,7 @@
 		4238E2B41D4379160065A194 /* Pokemon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pokemon.swift; sourceTree = "<group>"; };
 		4238E2B71D438AEC0065A194 /* PokemonGettable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PokemonGettable.swift; sourceTree = "<group>"; };
 		42406BF21D53652F00C28677 /* EditTextWithImageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTextWithImageTableViewCell.swift; sourceTree = "<group>"; };
+		42406BF41D537FD000C28677 /* Logout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logout.swift; sourceTree = "<group>"; };
 		424FF13A1D4F5AC800AA98A4 /* AddPokemonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPokemonViewController.swift; sourceTree = "<group>"; };
 		425BF5851D4F76120059DF8C /* AddPokemonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPokemonTableViewCell.swift; sourceTree = "<group>"; };
 		42AB1C6A1D30F6AA000382AD /* PokeDex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokeDex.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,6 +149,7 @@
 				42F43FAC1D5223B500EE599C /* LoadUser.swift */,
 				42F43FAE1D522C8B00EE599C /* Signup.swift */,
 				42F43FB21D52568100EE599C /* RemoveUser.swift */,
+				42406BF41D537FD000C28677 /* Logout.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -407,6 +410,7 @@
 				42F43FB31D52568100EE599C /* RemoveUser.swift in Sources */,
 				4238E2B51D4379160065A194 /* Pokemon.swift in Sources */,
 				4238E2B81D438AEC0065A194 /* PokemonGettable.swift in Sources */,
+				42406BF51D537FD000C28677 /* Logout.swift in Sources */,
 				42F43FAD1D5223B500EE599C /* LoadUser.swift in Sources */,
 				42AB1C6E1D30F6AA000382AD /* AppDelegate.swift in Sources */,
 				42406BF31D53652F00C28677 /* EditTextWithImageTableViewCell.swift in Sources */,
