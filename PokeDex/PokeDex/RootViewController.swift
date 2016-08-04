@@ -20,13 +20,15 @@ class RootViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBarHidden = true
 
         // Do any additional setup after loading the view.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillDisappear(animated: Bool)
+    {
+        super.viewWillDisappear(animated)
+        self.navigationController?.navigationBarHidden = false
     }
     
     @IBAction func logInButtonClick(sender: UIButton) {
@@ -34,10 +36,14 @@ class RootViewController: UIViewController {
         //print(usernameTextField.text)
         //print(passwordTextField.text)
         
-        let username = usernameTextField.text
-        let password = passwordTextField.text
+        //let username = usernameTextField.text
+        //let password = passwordTextField.text
         
-        let parameters = ["password": password!, "email": username!]
+        let username = "andrea@mail.com"
+        let password = "andrea123"
+        
+        //let parameters = ["password": password!, "email": username!]
+        let parameters = ["password": password, "email": username]
         let data = ["type": "session", "attributes": parameters]
         let params = ["data": data]
         
@@ -76,19 +82,11 @@ class RootViewController: UIViewController {
     
     func login(user: User) {
         
-        let viewController = storyboard?.instantiateViewControllerWithIdentifier("home") as! HomeViewController
-        viewController.user = user
-        navigationController?.pushViewController(viewController, animated: true)
+        getPokemons(user)
     }
+
+}
+
+extension RootViewController: PokemonGettable {
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

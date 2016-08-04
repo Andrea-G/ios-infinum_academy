@@ -22,6 +22,8 @@ class RegistrationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = "Sign Up"
 
         // Do any additional setup after loading the view.
     }
@@ -54,13 +56,12 @@ class RegistrationViewController: UIViewController {
                     print("Validation Successful")
                     print("\(response)")
                     do {
-                        let data = response.data!
-                        let user: User = try Unbox(data)
-                        print("\(user)")
-                        
-                        let homeViewController = self.storyboard?.instantiateViewControllerWithIdentifier("home") as! HomeViewController
-                        homeViewController.user = user
-                        self.navigationController?.pushViewController(homeViewController, animated: true)
+                        if let data = response.data {
+                            let user: User = try Unbox(data)
+                            print("\(user)")
+                            
+                            self.getPokemons(user)
+                        }
                         
                     } catch _ {
                         print("Failed")
@@ -71,14 +72,9 @@ class RegistrationViewController: UIViewController {
         }
         
     }
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+}
+
+extension RegistrationViewController: PokemonGettable {
 
 }
