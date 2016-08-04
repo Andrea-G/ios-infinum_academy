@@ -7,5 +7,7 @@ target 'PokeDex’ do
 
   # Pods for PokeDex
   pod 'MBProgressHUD', '~> 0.9'
+  pod 'Alamofire', '~> 3.4'
+  pod "Unbox"
 
 end
