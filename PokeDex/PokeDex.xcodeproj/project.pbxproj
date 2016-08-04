@@ -154,6 +154,16 @@
 			name = Protocols;
 			sourceTree = "<group>";
 		};
+		42406BF61D53953200C28677 /* Custom Classes */ = {
+			isa = PBXGroup;
+			children = (
+				4238E2A91D3E843F0065A194 /* User.swift */,
+				4238E2B21D43785A0065A194 /* PokemonList.swift */,
+				4238E2B41D4379160065A194 /* Pokemon.swift */,
+			);
+			name = "Custom Classes";
+			sourceTree = "<group>";
+		};
 		42AB1C611D30F6AA000382AD = {
 			isa = PBXGroup;
 			children = (
@@ -179,6 +189,7 @@
 		42AB1C6C1D30F6AA000382AD /* PokeDex */ = {
 			isa = PBXGroup;
 			children = (
+				42406BF61D53953200C28677 /* Custom Classes */,
 				4238E2B61D438AD20065A194 /* Protocols */,
 				4238E2AF1D4359CA0065A194 /* Custom cells */,
 				42AB1C6D1D30F6AA000382AD /* AppDelegate.swift */,
@@ -188,10 +199,7 @@
 				42AB1C791D30F6AA000382AD /* Info.plist */,
 				42AB1C9B1D30F721000382AD /* RootViewController.swift */,
 				42D477FA1D311DBD004B0F8A /* HomeViewController.swift */,
-				4238E2A91D3E843F0065A194 /* User.swift */,
 				4238E2AD1D3E87690065A194 /* RegistrationViewController.swift */,
-				4238E2B21D43785A0065A194 /* PokemonList.swift */,
-				4238E2B41D4379160065A194 /* Pokemon.swift */,
 				6BBD60AA1D43BD4E002DAB91 /* PokemonDetailsTableViewController.swift */,
 				424FF13A1D4F5AC800AA98A4 /* AddPokemonViewController.swift */,
 			);

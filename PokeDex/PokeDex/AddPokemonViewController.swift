@@ -31,7 +31,7 @@ class AddPokemonViewController: UIViewController, UIImagePickerControllerDelegat
         self.title = "Add new Pokemon"
 
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 68
+        tableView.estimatedRowHeight = 80
         
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         // Do any additional setup after loading the view.

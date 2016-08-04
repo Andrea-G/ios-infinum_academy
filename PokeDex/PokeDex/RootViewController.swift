@@ -14,8 +14,8 @@ import Unbox
 
 class RootViewController: UIViewController, LoadUser, StoreUser {
 
-    @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var usernameTextField: UITextField!
+    weak var passwordTextField: UITextField!
+    weak var usernameTextField: UITextField!
     @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     
@@ -62,6 +62,7 @@ class RootViewController: UIViewController, LoadUser, StoreUser {
     @IBAction func signUpButtonClick(sender: AnyObject) {
         
         let viewController = storyboard?.instantiateViewControllerWithIdentifier("signup") as! RegistrationViewController
+        viewController.rootViewController = self
         navigationController?.pushViewController(viewController, animated: true)
         
     }
