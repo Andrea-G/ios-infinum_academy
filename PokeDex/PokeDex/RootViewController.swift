@@ -74,7 +74,6 @@ class RootViewController: UIViewController, LoadUser, StoreUser {
             passwordTextField.font = UIFont.systemFontOfSize(20.0)
         }
         
-        
         passwordTextField.secureTextEntry = !passwordTextField.secureTextEntry
     }
 

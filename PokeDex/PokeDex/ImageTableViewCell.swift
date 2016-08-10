@@ -1,17 +1,17 @@
 //
-//  PokemonGeneralDetailsTableViewCell.swift
+//  ImageTableViewCell.swift
 //  PokeDex
 //
+//  Created by Infinum on 10/08/16.
 //  Copyright © 2016 Infinum. All rights reserved.
 //
 
 import UIKit
 
-class PokemonGeneralDetailsTableViewCell: UITableViewCell {
-
-    @IBOutlet weak var pokemonNameLabel: UILabel!
-    @IBOutlet weak var pokemonInfoLabel: UILabel!
+class ImageTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var img: UIImageView!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -19,8 +19,6 @@ class PokemonGeneralDetailsTableViewCell: UITableViewCell {
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
 }

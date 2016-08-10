@@ -9,9 +9,6 @@ import UIKit
 
 class LikeDislikeTableViewCell: UITableViewCell {
     
-    
-    
-
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

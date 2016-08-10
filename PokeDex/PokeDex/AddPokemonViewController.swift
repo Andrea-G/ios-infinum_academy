@@ -34,6 +34,7 @@ class AddPokemonViewController: UIViewController, UIImagePickerControllerDelegat
         tableView.estimatedRowHeight = 80
         
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableView.allowsSelection = false
         // Do any additional setup after loading the view.
     }
     
@@ -79,11 +80,18 @@ class AddPokemonViewController: UIViewController, UIImagePickerControllerDelegat
         
         let description = cell?.textView.text
         
+        uploadPokemon(name!, height: height!, weight: weight!, type: type, abilities: abilities, description: description)
+        
+    }
+    
+    func uploadPokemon(name: String, height: String, weight: String, type: String?, abilities: String?, description: String?){
+        
         let headers = [
             "Authorization": user.authorization,
             ]
-
-        let attributes = ["name": name!, "height": height!, "weight": weight!, "order": "36", "is_default": "1", "gender_id": "1", "description": "Some pokemon"]
+        
+        let attributes = ["name": name, "height": height, "weight": weight, "order": "36", "is_default": "1", "gender_id": "1", "description": "Some pokemon"]
+        
         
         Alamofire.upload(.POST, "https://pokeapi.infinum.co/api/v1/pokemons", headers: headers, multipartFormData: {
             multipartFormData in
@@ -105,7 +113,7 @@ class AddPokemonViewController: UIViewController, UIImagePickerControllerDelegat
                         }
                         print(response.response)
                         if let delegate = self.delegate {
-                            delegate.didAddPokemon(name!)
+                            delegate.didAddPokemon(name)
                         }
                     })
                     self.navigationController?.popViewControllerAnimated(true)

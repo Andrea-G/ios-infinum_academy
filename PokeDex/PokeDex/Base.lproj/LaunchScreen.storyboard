@@ -17,14 +17,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Pokedex_title" translatesAutoresizingMaskIntoConstraints="NO" id="6vJ-Af-H9U">
-                                <rect key="frame" x="142" y="102" width="300" height="149"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Pokedex_title" translatesAutoresizingMaskIntoConstraints="NO" id="6vJ-Af-H9U">
+                                <rect key="frame" x="150" y="102" width="300" height="149"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="DEt-zC-btL"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Pokeball" translatesAutoresizingMaskIntoConstraints="NO" id="BEF-dd-UaJ">
-                                <rect key="frame" x="162" y="226" width="260" height="207"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Pokeball" translatesAutoresizingMaskIntoConstraints="NO" id="BEF-dd-UaJ">
+                                <rect key="frame" x="170" y="226" width="260" height="207"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="260" id="ghb-Rs-TpU"/>
                                 </constraints>

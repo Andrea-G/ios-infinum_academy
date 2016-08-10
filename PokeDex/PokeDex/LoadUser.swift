@@ -20,22 +20,19 @@ extension LoadUser where Self:  UIViewController {
         
         let ud = NSUserDefaults.standardUserDefaults()
         
-        if let email = ud.stringForKey("email"){
-            
-            if let username = ud.stringForKey("username"){
-                
-                if let token = ud.stringForKey("auth-token"){
-                    return (email, username, token)
-                } else {
-                    return nil
-                }
-                
-            } else {
-                return nil
-            }
-        } else {
+        guard let email = ud.stringForKey("email") else {
             return nil
         }
+        
+        guard let username = ud.stringForKey("username") else {
+            return nil
+        }
+        
+        guard let token = ud.stringForKey("auth-token") else {
+            return nil
+        }
+        
+        return (email, username, token)
 
     }
 }

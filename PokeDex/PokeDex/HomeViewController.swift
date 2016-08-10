@@ -70,7 +70,7 @@ class HomeViewController: UIViewController, PokemonAddedDelegate, RemoveUser{
         getPokemons()
     }
     
-    func adjustRoundImage(imageView: UIImageView?, hasImage: Bool){
+    func adjustRoundImage(imageView: UIImageView?){
         
         var layer: CALayer = CALayer()
         layer = (imageView?.layer)!
@@ -81,10 +81,10 @@ class HomeViewController: UIViewController, PokemonAddedDelegate, RemoveUser{
         let itemSize = CGSizeMake(50, 50)
         UIGraphicsBeginImageContextWithOptions(itemSize, false, UIScreen.mainScreen().scale)
         let imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height)
-        
-        if !hasImage {
-            imageView?.image = UIImage(named: "image_placeholder")
-        }
+//        
+//        if imageView?.image == nil {
+//            imageView?.image = UIImage(named: "image_placeholder")
+//        }
         
         imageView?.image!.drawInRect(imageRect)
         imageView?.image! = UIGraphicsGetImageFromCurrentImageContext()
@@ -107,23 +107,32 @@ extension HomeViewController: UITableViewDataSource {
         cell.textLabel?.text = pokemons[indexPath.row].name
         cell.imageView?.contentMode = .ScaleAspectFit
         
-        var hasImage = false
-        
         if let imageUrl = pokemons[indexPath.row].imageUrl {
             
             let url:NSURL = NSURL(string: "https://pokeapi.infinum.co" + imageUrl)!
-            if let data:NSData = NSData(contentsOfURL: url) {
-                
-                cell.imageView?.image = UIImage(data: data)
-                
-                if cell.imageView?.image != nil {
-                    hasImage = true
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+
+                guard let imageData = NSData(contentsOfURL: url) else {
+                    return
                 }
                 
+                guard let image = UIImage(data: imageData) else {
+                    return
+                }
+                print("img")
+                print(image)
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    
+                    print(image)
+                    print(cell.imageView?.image)
+                    cell.imageView?.image = image
+                    print(cell.imageView?.image)
+                    self.adjustRoundImage(cell.imageView)
+                })
             }
         }
-        
-        adjustRoundImage(cell.imageView, hasImage: hasImage)
         
         return cell
     }
