@@ -10,6 +10,18 @@ import Foundation
 
 import Unbox
 
+struct CommentUser : Unboxable {
+    
+    let email: String
+    let username: String
+    
+    init(unboxer: Unboxer) {
+        email = unboxer.unbox("data.attributes.email")
+        username = unboxer.unbox("data.attributes.username")
+
+    }
+}
+
 struct User: Unboxable {
     
     let authToken: String

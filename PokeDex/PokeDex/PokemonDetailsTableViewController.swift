@@ -6,10 +6,16 @@
 //
 
 import UIKit
+import Alamofire
+import MBProgressHUD
+import Unbox
 
 class PokemonDetailsTableViewController: UITableViewController {
     
     var pokemon: Pokemon!
+    var user: User!
+    var comments = [Comment]()
+    var commentTextField: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,11 +38,16 @@ class PokemonDetailsTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 9
+        return 8 + comments.count
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        var commentsRange = 7
+        if comments.count != 0 {
+            commentsRange = 7 + comments.count - 1
+        }
         
         switch indexPath.row {
             
@@ -111,21 +122,22 @@ class PokemonDetailsTableViewController: UITableViewController {
             
             return cell
             
-        case 7:
+        case 7...commentsRange:
+            
+            if comments.count == 0 {
+                fallthrough
+            }
             let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("comment") as UITableViewCell!
             cell.textLabel?.text = "user"
-            cell.detailTextLabel?.text = "some comment"
+            cell.detailTextLabel?.text = comments[indexPath.row-7].content
             
             return cell
             
-        case 8:
-            let cell = tableView.dequeueReusableCellWithIdentifier("editText") as! EditTextWithImageTableViewCell
+        case (7+comments.count):
+            let cell = tableView.dequeueReusableCellWithIdentifier("addComment") as UITableViewCell!
             
-            cell.textView.placeholder = "Add comment"
-            cell.textView.addTarget(self, action:#selector(PokemonDetailsTableViewController.addCommentClick), forControlEvents: UIControlEvents.AllEvents)
-            
-            let image = UIImage(named: "add_image_button") as UIImage?
-            cell.rightButton.setImage(image, forState: .Normal)
+            let tap = UITapGestureRecognizer(target: self, action:#selector(PokemonDetailsTableViewController.addCommentClick))
+            cell.textLabel?.addGestureRecognizer(tap)
             
             return cell
             
@@ -137,11 +149,86 @@ class PokemonDetailsTableViewController: UITableViewController {
     
     func addCommentClick(){
         
-        let vc = storyboard?.instantiateViewControllerWithIdentifier("commentPopup")
-        vc?.modalPresentationStyle = .OverCurrentContext
-        navigationController?.presentViewController(vc!, animated: true, completion: {
+        let vc = storyboard?.instantiateViewControllerWithIdentifier("commentPopup")  as! CommentPopupViewController
+        vc.delegate = self
+        vc.modalPresentationStyle = .OverCurrentContext
+        navigationController?.presentViewController(vc, animated: true, completion: {
             
         })
     }
+    
+    func submitComment(comment: String, authorization: String){
+        
+        let parameters = ["content": comment]
+        let data = ["attributes": parameters]
+        let params = ["data": data]
+        
+        let headers = ["Authorization": authorization,]
+        
+        let id = pokemon.id!
+        
+        MBProgressHUD.showHUDAddedTo(view, animated: true)
+        
+        Alamofire.request(.POST, "https://pokeapi.infinum.co/api/v1/pokemons/" + id + "/comments", parameters: params, headers: headers, encoding: .JSON).validate().responseJSON
+            { (response) in
+                
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
+                
+                switch response.result {
+                case .Success:
+                    print("Validation Successful")
+                    print("\(response)")
+                    self.getComments(authorization)
+                    
+                case .Failure(let error):
+                    print(error)
+                }
+        }
 
+    }
+    
+}
+
+extension PokemonDetailsTableViewController : CommentGettable {
+    
+    func getComments(authorization: String){
+        
+        let headers = ["Authorization": authorization,]
+        MBProgressHUD.showHUDAddedTo(view, animated: true)
+        
+        let id = pokemon.id!
+        
+        Alamofire.request(.GET, "https://pokeapi.infinum.co/api/v1/pokemons/" + id + "/comments", headers: headers, encoding: .JSON).validate().responseJSON
+            { (response) in
+                
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
+                switch response.result {
+                case .Success:
+                    print("Successful")
+                    
+                    do {
+                        let data = response.data!
+                        let commentList : CommentList = try Unbox(data)
+                        print("\(commentList.comments)")
+                        
+                        self.comments = commentList.comments
+                        self.tableView.reloadData()
+                        
+                    } catch _ {
+                        print("Failed")
+                    }
+                case .Failure(let error):
+                    print(error)
+                }
+        }
+    }
+}
+
+extension PokemonDetailsTableViewController : CommentAddedDelegate {
+
+    func didAddComment(comment: String) {
+        
+        submitComment(comment, authorization: user.authorization)
+
+    }
 }

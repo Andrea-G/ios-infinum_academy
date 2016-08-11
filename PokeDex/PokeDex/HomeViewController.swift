@@ -28,31 +28,7 @@ class HomeViewController: UIViewController, PokemonAddedDelegate, RemoveUser{
         
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
-        //addLeftBarButtonItem()
-        //addRightBarButtonItem()
-        
     }
-    /*
-    func addLeftBarButtonItem(){
-        
-        let logoutButton = UIButton(type: .Custom)
-        logoutButton.setImage(UIImage(named: "icon_logout"), forState: UIControlState.Normal)
-        logoutButton.addTarget(self, action:#selector(HomeViewController.logoutButtonClick), forControlEvents: UIControlEvents.TouchUpInside)
-        logoutButton.frame=CGRectMake(0, 0, 50, 50)
-        let barButtonLeft = UIBarButtonItem(customView: logoutButton)
-        self.navigationItem.leftBarButtonItem = barButtonLeft
-        
-    }
-    
-    func addRightBarButtonItem(){
-        
-        let addPokemonButton = UIButton(type: .Custom)
-        addPokemonButton.setImage(UIImage(named: "icon_add"), forState: UIControlState.Normal)
-        addPokemonButton.addTarget(self, action:#selector(HomeViewController.addPokemonButtonClick), forControlEvents: UIControlEvents.TouchUpInside)
-        addPokemonButton.frame=CGRectMake(0, 0, 50, 50)
-        let barButtonRight = UIBarButtonItem(customView: addPokemonButton)
-        self.navigationItem.rightBarButtonItem = barButtonRight
-    }*/
     
     @IBAction func logoutButtonClick(sender: AnyObject) {
         userLogout(user.authorization)
@@ -67,7 +43,7 @@ class HomeViewController: UIViewController, PokemonAddedDelegate, RemoveUser{
     }
     
     func didAddPokemon(name: String) {
-        getPokemons()
+        getPokemons(user.authorization)
     }
     
     func adjustRoundImage(imageView: UIImageView?){
@@ -144,7 +120,9 @@ extension HomeViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let viewController = storyboard?.instantiateViewControllerWithIdentifier("pokemonDetails") as! PokemonDetailsTableViewController
+        viewController.user = user
         viewController.pokemon = pokemons[indexPath.row]
+        viewController.getComments(user.authorization)
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
@@ -152,9 +130,9 @@ extension HomeViewController: UITableViewDelegate {
 
 extension HomeViewController : PokemonGettable {
     
-    func getPokemons(){
+    func getPokemons(authorization: String){
         
-        let headers = ["Authorization": user.authorization,]
+        let headers = ["Authorization": authorization,]
         MBProgressHUD.showHUDAddedTo(view, animated: true)
         
         Alamofire.request(.GET, "https://pokeapi.infinum.co/api/v1/pokemons", headers: headers, encoding: .JSON).validate().responseJSON

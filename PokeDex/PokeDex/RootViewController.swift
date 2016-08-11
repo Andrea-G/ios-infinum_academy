@@ -14,8 +14,8 @@ import Unbox
 
 class RootViewController: UIViewController, LoadUser, StoreUser {
 
-    weak var passwordTextField: UITextField!
-    weak var usernameTextField: UITextField!
+    var passwordTextField: UITextField!
+    var usernameTextField: UITextField!
     @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     
@@ -127,7 +127,7 @@ extension RootViewController: UserAdded {
         let homeViewController = self.storyboard?.instantiateViewControllerWithIdentifier("home") as! HomeViewController
         homeViewController.user = user
         storeUser(user)
-        homeViewController.getPokemons()
+        homeViewController.getPokemons(user.authorization)
         navigationController?.pushViewController(homeViewController, animated: true)
     }
 }

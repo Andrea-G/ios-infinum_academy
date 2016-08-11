@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import UIKit
 
 protocol PokemonGettable {
     
-    func getPokemons()
+    func getPokemons(authorization: String)
 }

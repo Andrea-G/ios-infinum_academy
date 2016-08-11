@@ -12,12 +12,14 @@ import Unbox
 
 struct Pokemon: Unboxable {
     
+    let id: String?
+    
     let name: String?
     let baseExperience: Int?
     let isDefault: Bool?
     let order: Int?
     let height: Double?
-    let weight: String?
+    let weight: Double?
     let createdAt: String?
     let updatedAt: String?
     let imageUrl: String?
@@ -27,6 +29,8 @@ struct Pokemon: Unboxable {
     let gender: String?
     
     init(unboxer: Unboxer) {
+        
+        id = unboxer.unbox("id")
         
         name = unboxer.unbox("attributes.name")
         baseExperience = unboxer.unbox("attributes.base-experience")
