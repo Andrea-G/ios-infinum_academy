@@ -28,11 +28,11 @@ class HomeViewController: UIViewController, PokemonAddedDelegate, RemoveUser{
         
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
-        addLeftBarButtonItem()
-        addRightBarButtonItem()
+        //addLeftBarButtonItem()
+        //addRightBarButtonItem()
         
     }
-    
+    /*
     func addLeftBarButtonItem(){
         
         let logoutButton = UIButton(type: .Custom)
@@ -52,13 +52,13 @@ class HomeViewController: UIViewController, PokemonAddedDelegate, RemoveUser{
         addPokemonButton.frame=CGRectMake(0, 0, 50, 50)
         let barButtonRight = UIBarButtonItem(customView: addPokemonButton)
         self.navigationItem.rightBarButtonItem = barButtonRight
-    }
+    }*/
     
-    func logoutButtonClick() {
+    @IBAction func logoutButtonClick(sender: AnyObject) {
         userLogout(user.authorization)
     }
     
-    func addPokemonButtonClick() {
+    @IBAction func addPokemonButtonClick(sender: AnyObject) {
         
         let viewController = storyboard?.instantiateViewControllerWithIdentifier("addPokemon") as! AddPokemonViewController
         viewController.user = user
