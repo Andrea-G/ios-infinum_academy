@@ -10,5 +10,5 @@ import Foundation
 
 protocol GetUser {
     
-    func getUser(authorization: String) -> User
+    func getUser(authorization: String, id: String)
 }

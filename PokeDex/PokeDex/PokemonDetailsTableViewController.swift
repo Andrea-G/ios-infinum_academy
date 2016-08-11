@@ -15,6 +15,7 @@ class PokemonDetailsTableViewController: UITableViewController {
     var pokemon: Pokemon!
     var user: User!
     var comments = [Comment]()
+    var usernameDictionary = [String: String]()
     var commentTextField: UITextField!
 
     override func viewDidLoad() {
@@ -128,7 +129,12 @@ class PokemonDetailsTableViewController: UITableViewController {
                 fallthrough
             }
             let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("comment") as UITableViewCell!
-            cell.textLabel?.text = "user"
+            let id = comments[indexPath.row-7].userId!
+            
+            if let val = usernameDictionary[id] {
+                cell.textLabel?.text = val
+            }
+
             cell.detailTextLabel?.text = comments[indexPath.row-7].content
             
             return cell
@@ -209,9 +215,12 @@ extension PokemonDetailsTableViewController : CommentGettable {
                     do {
                         let data = response.data!
                         let commentList : CommentList = try Unbox(data)
-                        print("\(commentList.comments)")
                         
                         self.comments = commentList.comments
+                        let ids = self.comments.map { $0.userId }
+                        
+                        ids.map{ self.getUser(authorization, id: $0!) }
+                        
                         self.tableView.reloadData()
                         
                     } catch _ {
@@ -230,5 +239,37 @@ extension PokemonDetailsTableViewController : CommentAddedDelegate {
         
         submitComment(comment, authorization: user.authorization)
 
+    }
+}
+
+extension PokemonDetailsTableViewController : GetUser {
+    
+    func getUser(authorization: String, id: String) {
+        
+        let headers = ["Authorization": authorization,]
+        //MBProgressHUD.showHUDAddedTo(view, animated: true)
+        
+        Alamofire.request(.GET, "https://pokeapi.infinum.co/api/v1/users/" + id, headers: headers, encoding: .JSON).validate().responseJSON
+            { (response) in
+                
+                //MBProgressHUD.hideHUDForView(self.view, animated: true)
+                switch response.result {
+                case .Success:
+                    print("Successful get user")
+                    
+                    do {
+                        let data = response.data!
+                        let user : CommentUser = try Unbox(data)
+                        self.usernameDictionary[id] = user.username
+                        
+                        self.tableView.reloadData()
+                        
+                    } catch _ {
+                        print("Failed")
+                    }
+                case .Failure(let error):
+                    print(error)
+                }
+        }
     }
 }
