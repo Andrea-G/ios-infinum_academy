@@ -11,6 +11,7 @@ import UIKit
 import Alamofire
 import Unbox
 import MBProgressHUD
+import Kingfisher
 
 class HomeViewController: UIViewController, PokemonAddedDelegate, RemoveUser{
     
@@ -45,29 +46,6 @@ class HomeViewController: UIViewController, PokemonAddedDelegate, RemoveUser{
     func didAddPokemon(name: String) {
         getPokemons(user.authorization)
     }
-    
-    func adjustRoundImage(imageView: UIImageView?){
-        
-        var layer: CALayer = CALayer()
-        layer = (imageView?.layer)!
-        
-        layer.masksToBounds = true
-        layer.cornerRadius = CGFloat(25)
-        
-        let itemSize = CGSizeMake(50, 50)
-        UIGraphicsBeginImageContextWithOptions(itemSize, false, UIScreen.mainScreen().scale)
-        let imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height)
-//        
-//        if imageView?.image == nil {
-//            imageView?.image = UIImage(named: "image_placeholder")
-//        }
-        
-        imageView?.image!.drawInRect(imageRect)
-        imageView?.image! = UIGraphicsGetImageFromCurrentImageContext()
-
-        UIGraphicsEndImageContext()
-    }
-    
 
 }
 
@@ -78,36 +56,22 @@ extension HomeViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("pokemonListCell") as UITableViewCell!
+        let cell = tableView.dequeueReusableCellWithIdentifier("pokemonListCell") as! PokemonListTableViewCell
         
-        cell.textLabel?.text = pokemons[indexPath.row].name
-        cell.imageView?.contentMode = .ScaleAspectFit
+        cell.pokemonNameLabel.text = pokemons[indexPath.row].name
+        cell.pokemonImage.contentMode = .ScaleAspectFit
+        cell.pokemonImage.layer.masksToBounds = false
+        cell.pokemonImage.layer.cornerRadius = cell.pokemonImage.frame.height/2
+        cell.pokemonImage.clipsToBounds = true
         
         if let imageUrl = pokemons[indexPath.row].imageUrl {
             
-            let url:NSURL = NSURL(string: "https://pokeapi.infinum.co" + imageUrl)!
+            let stringUrl = "https://pokeapi.infinum.co" + imageUrl
             
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            cell.pokemonImage.kf_setImageWithURL(NSURL(string: stringUrl)!, placeholderImage: UIImage(named: "image_placeholder"), completionHandler: { (image, error, cacheType, imageURL) -> () in
+                
 
-                guard let imageData = NSData(contentsOfURL: url) else {
-                    return
-                }
-                
-                guard let image = UIImage(data: imageData) else {
-                    return
-                }
-                print("img")
-                print(image)
-                
-                dispatch_async(dispatch_get_main_queue(), {
-                    
-                    print(image)
-                    print(cell.imageView?.image)
-                    cell.imageView?.image = image
-                    print(cell.imageView?.image)
-                    self.adjustRoundImage(cell.imageView)
-                })
-            }
+            })
         }
         
         return cell

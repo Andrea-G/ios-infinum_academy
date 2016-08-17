@@ -22,22 +22,39 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="pokemonListCell" textLabel="0Z0-E1-Ss5" style="IBUITableViewCellStyleDefault" id="irb-nC-R1N">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="pokemonListCell" id="irb-nC-R1N" customClass="PokemonListTableViewCell" customModule="PokeDex" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="92" width="600" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="irb-nC-R1N" id="YUB-Mr-474">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0Z0-E1-Ss5">
-                                                    <rect key="frame" x="15" y="0.0" width="570" height="59"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bm4-bM-T1C">
+                                                    <rect key="frame" x="13" y="5" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="dBi-Bu-vf9"/>
+                                                        <constraint firstAttribute="height" constant="50" id="hST-Fu-GoI"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tyL-2d-vn6">
+                                                    <rect key="frame" x="71" y="30" width="521" height="0.0"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="tyL-2d-vn6" firstAttribute="leading" secondItem="bm4-bM-T1C" secondAttribute="trailing" constant="8" id="NaC-l9-L2m"/>
+                                                <constraint firstItem="bm4-bM-T1C" firstAttribute="centerY" secondItem="YUB-Mr-474" secondAttribute="centerY" id="RNk-10-xEI"/>
+                                                <constraint firstAttribute="trailing" secondItem="tyL-2d-vn6" secondAttribute="trailing" constant="8" id="Vsi-ak-iCv"/>
+                                                <constraint firstItem="tyL-2d-vn6" firstAttribute="centerY" secondItem="YUB-Mr-474" secondAttribute="centerY" id="jaz-xj-GJx"/>
+                                                <constraint firstItem="bm4-bM-T1C" firstAttribute="leading" secondItem="YUB-Mr-474" secondAttribute="leading" constant="13" id="po2-cB-IiI"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="pokemonImage" destination="bm4-bM-T1C" id="BJu-lr-d10"/>
+                                            <outlet property="pokemonNameLabel" destination="tyL-2d-vn6" id="ALS-IA-8qi"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -427,6 +444,9 @@
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sDS-HL-djk">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="400"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="400" id="jNz-AG-piw"/>
+                                            </constraints>
                                         </imageView>
                                     </subviews>
                                     <constraints>
@@ -438,6 +458,13 @@
                                         <constraint firstItem="sDS-HL-djk" firstAttribute="leading" secondItem="Jsf-CQ-5rx" secondAttribute="leading" id="SWe-qM-w9M"/>
                                         <constraint firstItem="sDS-HL-djk" firstAttribute="width" secondItem="Jsf-CQ-5rx" secondAttribute="width" id="jcm-sQ-9uq"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="321-C2-C8y"/>
+                                            <exclude reference="Hpp-Xg-uQF"/>
+                                            <exclude reference="jcm-sQ-9uq"/>
+                                        </mask>
+                                    </variation>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="img" destination="sDS-HL-djk" id="LTq-if-9XH"/>
@@ -635,6 +662,9 @@
                             <outlet property="delegate" destination="Rhg-pS-lh3" id="vsi-1c-oMv"/>
                         </connections>
                     </tableView>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="Lk5-ZN-EOj">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U04-nN-eUv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

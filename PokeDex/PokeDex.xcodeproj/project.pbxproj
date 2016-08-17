@@ -29,6 +29,7 @@
 		42AB1C8E1D30F6AA000382AD /* PokeDexUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AB1C8D1D30F6AA000382AD /* PokeDexUITests.swift */; };
 		42AB1C9C1D30F721000382AD /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AB1C9B1D30F721000382AD /* RootViewController.swift */; };
 		42D477FB1D311DBD004B0F8A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D477FA1D311DBD004B0F8A /* HomeViewController.swift */; };
+		42F1C94D1D64C38D0061DCCE /* PokemonListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F1C94C1D64C38D0061DCCE /* PokemonListTableViewCell.swift */; };
 		42F43F9F1D50AED200EE599C /* PokemonAddedDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F43F9E1D50AED200EE599C /* PokemonAddedDelegate.swift */; };
 		42F43FA51D5209DE00EE599C /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F43FA41D5209DE00EE599C /* Login.swift */; };
 		42F43FA71D5219B700EE599C /* StoreUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F43FA61D5219B700EE599C /* StoreUser.swift */; };
@@ -91,6 +92,7 @@
 		42AB1C8F1D30F6AA000382AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		42AB1C9B1D30F721000382AD /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		42D477FA1D311DBD004B0F8A /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		42F1C94C1D64C38D0061DCCE /* PokemonListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PokemonListTableViewCell.swift; sourceTree = "<group>"; };
 		42F43F9E1D50AED200EE599C /* PokemonAddedDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PokemonAddedDelegate.swift; sourceTree = "<group>"; };
 		42F43FA41D5209DE00EE599C /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		42F43FA61D5219B700EE599C /* StoreUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreUser.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				425BF5851D4F76120059DF8C /* AddPokemonTableViewCell.swift */,
 				42406BF21D53652F00C28677 /* EditTextWithImageTableViewCell.swift */,
 				4215C45F1D5B49A30013E1F3 /* ImageTableViewCell.swift */,
+				42F1C94C1D64C38D0061DCCE /* PokemonListTableViewCell.swift */,
 			);
 			name = "Custom cells";
 			sourceTree = "<group>";
@@ -457,6 +460,7 @@
 				425BF5861D4F76120059DF8C /* AddPokemonTableViewCell.swift in Sources */,
 				42D477FB1D311DBD004B0F8A /* HomeViewController.swift in Sources */,
 				42F43FAF1D522C8B00EE599C /* Signup.swift in Sources */,
+				42F1C94D1D64C38D0061DCCE /* PokemonListTableViewCell.swift in Sources */,
 				4238E2AE1D3E87690065A194 /* RegistrationViewController.swift in Sources */,
 				4215C4681D5C84600013E1F3 /* GetUser.swift in Sources */,
 				4215C4661D5C81C00013E1F3 /* Comment.swift in Sources */,

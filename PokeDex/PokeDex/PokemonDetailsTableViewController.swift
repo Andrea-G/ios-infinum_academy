@@ -9,6 +9,7 @@ import UIKit
 import Alamofire
 import MBProgressHUD
 import Unbox
+import Kingfisher
 
 class PokemonDetailsTableViewController: UITableViewController {
     
@@ -24,13 +25,21 @@ class PokemonDetailsTableViewController: UITableViewController {
         self.title = pokemon.name
         
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 400
+        tableView.estimatedRowHeight = 200
         
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.allowsSelection = false
+        refreshControl = UIRefreshControl()
+        self.refreshControl?.addTarget(self, action: #selector(PokemonDetailsTableViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+
+    }
+    
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        getComments(user.authorization)
     }
 
     // MARK: - Table view data source
+
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -57,12 +66,9 @@ class PokemonDetailsTableViewController: UITableViewController {
             
             if let imageUrl = pokemon.imageUrl {
                 let url:NSURL = NSURL(string: "https://pokeapi.infinum.co" + imageUrl)!
-                
-                if let data: NSData = NSData(contentsOfURL: url){
-                    cell.img.image = UIImage(data: data)
-                    cell.img.contentMode = .ScaleAspectFit
-                }
+                cell.img.kf_setImageWithURL(url, placeholderImage: UIImage(named: "image_placeholder"))
             }
+            
 
             return cell
         
@@ -229,6 +235,11 @@ extension PokemonDetailsTableViewController : CommentGettable {
                 case .Failure(let error):
                     print(error)
                 }
+                if let rc = self.refreshControl {
+                    if (rc.refreshing) {
+                        rc.endRefreshing()
+                    }
+                }
         }
     }
 }
@@ -255,7 +266,6 @@ extension PokemonDetailsTableViewController : GetUser {
                 //MBProgressHUD.hideHUDForView(self.view, animated: true)
                 switch response.result {
                 case .Success:
-                    print("Successful get user")
                     
                     do {
                         let data = response.data!
