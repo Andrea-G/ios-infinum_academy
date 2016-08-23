@@ -10,13 +10,15 @@ import UIKit
 
 import Alamofire
 import Unbox
+import MBProgressHUD
+import Kingfisher
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, PokemonAddedDelegate, RemoveUser{
     
     var user: User!
     var authorization: String = ""
-    var pokemons: [Pokemon]!
-
+    var pokemons = [Pokemon]()
+    
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -25,42 +27,24 @@ class HomeViewController: UIViewController {
         
         self.title = "Pokedex"
         
-        authorization = "Token token=" + user.authToken + ", email=" + user.email
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
-        //let image = UIImage(named: "icon_logout")
-        
-        let button = UIButton(type: .Custom)
-        button.setImage(UIImage(named: "icon_logout"), forState: UIControlState.Normal)
-        button.addTarget(self, action:#selector(HomeViewController.logoutButtonClick), forControlEvents: UIControlEvents.TouchUpInside)
-        button.frame=CGRectMake(0, 0, 30, 30)
-        let barButton = UIBarButtonItem(customView: button)
-        self.navigationItem.leftBarButtonItem = barButton
-        //print(user)
-        
-        print(pokemons)
-        // Do any additional setup after loading the view.
     }
     
-    func logoutButtonClick() {
+    @IBAction func logoutButtonClick(sender: AnyObject) {
+        userLogout(user.authorization)
+    }
+    
+    @IBAction func addPokemonButtonClick(sender: AnyObject) {
         
-        let headers = [
-            "Authorization": authorization,
-        ]
-        
-        Alamofire.request(.DELETE, "https://pokeapi.infinum.co/api/v1/users/logout", headers: headers, encoding: .JSON).validate().responseJSON
-            { (response) in
-
-                switch response.result {
-                case .Success:
-                    print("Logout Successful")
-                    print("\(response)")
-                    
-                case .Failure(let error):
-                    print(error)
-                }
-        }
-
-        self.navigationController?.popToRootViewControllerAnimated(true)
+        let viewController = storyboard?.instantiateViewControllerWithIdentifier("addPokemon") as! AddPokemonViewController
+        viewController.user = user
+        viewController.delegate = self
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    func didAddPokemon(name: String) {
+        getPokemons(user.authorization)
     }
 
 }
@@ -72,18 +56,97 @@ extension HomeViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("pokemonListCell") as UITableViewCell!
+        let cell = tableView.dequeueReusableCellWithIdentifier("pokemonListCell") as! PokemonListTableViewCell
         
-        cell.textLabel?.text = pokemons[indexPath.row].name
+        cell.pokemonNameLabel.text = pokemons[indexPath.row].name
+        cell.pokemonImage.contentMode = .ScaleAspectFit
+        cell.pokemonImage.layer.masksToBounds = false
+        cell.pokemonImage.layer.cornerRadius = cell.pokemonImage.frame.height/2
+        cell.pokemonImage.clipsToBounds = true
         
         if let imageUrl = pokemons[indexPath.row].imageUrl {
-            let url:NSURL = NSURL(string: imageUrl)!
-            let data:NSData = NSData(contentsOfURL: url)!
-            cell.imageView?.image = UIImage(data: data)
-        }
+            
+            let stringUrl = "https://pokeapi.infinum.co" + imageUrl
+            
+            cell.pokemonImage.kf_setImageWithURL(NSURL(string: stringUrl)!, placeholderImage: UIImage(named: "image_placeholder"), completionHandler: { (image, error, cacheType, imageURL) -> () in
+                
 
+            })
+        }
         
         return cell
     }
     
+}
+
+extension HomeViewController: UITableViewDelegate {
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let viewController = storyboard?.instantiateViewControllerWithIdentifier("pokemonDetails") as! PokemonDetailsTableViewController
+        viewController.user = user
+        viewController.pokemon = pokemons[indexPath.row]
+        viewController.getComments(user.authorization)
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+}
+
+
+extension HomeViewController : PokemonGettable {
+    
+    func getPokemons(authorization: String){
+        
+        let headers = ["Authorization": authorization,]
+        MBProgressHUD.showHUDAddedTo(view, animated: true)
+        
+        Alamofire.request(.GET, "https://pokeapi.infinum.co/api/v1/pokemons", headers: headers, encoding: .JSON).validate().responseJSON
+            { (response) in
+                
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
+                switch response.result {
+                case .Success:
+                    print("Successful")
+
+                    do {
+                        let data = response.data!
+                        let pokemonList : PokemonList = try Unbox(data)
+                        print("\(pokemonList.pokemons)")
+                        
+                        self.pokemons = pokemonList.pokemons
+                        self.tableView.reloadData()
+                        
+                    } catch _ {
+                        print("Failed")
+                    }
+                case .Failure(let error):
+                    print(error)
+                }
+        }
+    }
+}
+
+extension HomeViewController : Logout {
+
+    func userLogout(authorization: String) {
+        
+        let headers = [
+            "Authorization": authorization,
+            ]
+        
+        Alamofire.request(.DELETE, "https://pokeapi.infinum.co/api/v1/users/logout", headers: headers, encoding: .JSON).validate().responseJSON
+            { (response) in
+                
+                switch response.result {
+                case .Success:
+                    print("Logout Successful")
+                    print("\(response)")
+                    self.removeUser()
+                    
+                case .Failure(let error):
+                    print(error)
+                }
+        }
+        
+        self.navigationController?.popToRootViewControllerAnimated(true)
+    }
 }
